@@ -1,11 +1,11 @@
 package com.example.ecommerce_savings_transfer.models;
 
-
+import com.example.ecommerce_savings_transfer.models.User;
 import jakarta.persistence.*;
-
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "shoppings")
 public class Shopping {
 
     @Id
@@ -16,6 +16,10 @@ public class Shopping {
     private LocalDateTime transactionDateTime;
     private double price;
     private boolean isNeed;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     // Getters and Setters
     public Long getId() {
@@ -54,7 +58,15 @@ public class Shopping {
         return isNeed;
     }
 
-    public void setNeed(boolean need) {
+    public void setIsNeed(boolean need) {
         isNeed = need;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

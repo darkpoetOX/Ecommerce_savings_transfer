@@ -3,8 +3,8 @@ package com.example.ecommerce_savings_transfer.models;
 import jakarta.persistence.*;
 import java.util.List;
 
-
 @Entity
+@Table(name = "users") // specified a table name because "user" is a reserved keyword in PostgreSQL
 public class User {
 
     @Id

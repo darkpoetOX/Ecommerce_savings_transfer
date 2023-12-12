@@ -3,6 +3,7 @@ package com.example.ecommerce_savings_transfer.models;
 
 import jakarta.persistence.*;
 @Entity
+@Table(name = "bank_accounts")
 public class BankAccount {
 
     @Id

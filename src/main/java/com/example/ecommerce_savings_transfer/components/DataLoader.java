@@ -47,11 +47,11 @@ public class DataLoader implements CommandLineRunner {
         shoppingItem.setItemName("Item1");
         shoppingItem.setTransactionDateTime(LocalDateTime.now());
         shoppingItem.setPrice(150.0);
-        shoppingItem.setNeed(true);
+        shoppingItem.setIsNeed(true);
 
         // Save entities
         userService.createUser(user);
-        bankAccountService.updateBankAccount(bankAccount);
-        shoppingService.getAllShoppingItems().addAll(Arrays.asList(shoppingItem));
+        bankAccountService.createBankAccount(bankAccount);
+        shoppingService.createShoppingItem(shoppingItem);
     }
 }
