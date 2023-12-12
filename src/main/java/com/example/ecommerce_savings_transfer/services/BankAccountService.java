@@ -1,5 +1,6 @@
 package com.example.ecommerce_savings_transfer.services;
 
+import com.example.ecommerce_savings_transfer.models.BankAccount;
 import com.example.ecommerce_savings_transfer.repositories.BankAccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,5 +12,9 @@ public class BankAccountService {
     @Autowired
     public BankAccountService(BankAccountRepository bankAccountRepository) {
         this.bankAccountRepository = bankAccountRepository;
+    }
+
+    public BankAccount updateBankAccount(BankAccount bankAccount) {
+        return bankAccountRepository.save(bankAccount);
     }
 }
