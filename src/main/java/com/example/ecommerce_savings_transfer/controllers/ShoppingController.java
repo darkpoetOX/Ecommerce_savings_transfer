@@ -20,16 +20,17 @@ public class ShoppingController {
     {
         this.shoppingService = shoppingService;
     }
-    @PostMapping
-    public ResponseEntity<Shopping> createShoppingItem(@RequestBody Shopping shoppingItem) {
-        Shopping createdShoppingItem = shoppingService.createShoppingItem(shoppingItem);
-        return new ResponseEntity<>(createdShoppingItem, HttpStatus.CREATED);
-    }
 
     @GetMapping
     public ResponseEntity<List<Shopping>> getAllShoppingItems() {
         List<Shopping> shoppingItems = shoppingService.getAllShoppingItems();
         return new ResponseEntity<>(shoppingItems, HttpStatus.OK);
+    }@PostMapping
+    public ResponseEntity<Shopping> createShoppingItem(@RequestBody Shopping shoppingItem) {
+        Shopping createdShoppingItem = shoppingService.createShoppingItem(shoppingItem);
+        return new ResponseEntity<>(createdShoppingItem, HttpStatus.CREATED);
     }
+
+
 
 }
