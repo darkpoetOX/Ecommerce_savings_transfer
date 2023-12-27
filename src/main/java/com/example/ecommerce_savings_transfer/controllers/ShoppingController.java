@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("shoppings")
@@ -18,6 +19,7 @@ public class ShoppingController {
     @Autowired
     public ShoppingController(ShoppingService shoppingService)
     {
+
         this.shoppingService = shoppingService;
     }
 
@@ -25,7 +27,18 @@ public class ShoppingController {
     public ResponseEntity<List<Shopping>> getAllShoppingItems() {
         List<Shopping> shoppingItems = shoppingService.getAllShoppingItems();
         return new ResponseEntity<>(shoppingItems, HttpStatus.OK);
-    }@PostMapping
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Shopping> getShoppingItemById(@PathVariable Long id) {
+        Optional<Shopping> optionalShopping = shoppingService.getShoppingItemById(id);
+
+        if (optionalShopping.isPresent()) {
+            return new ResponseEntity<>(optionalShopping.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+    @PostMapping
     public ResponseEntity<Shopping> createShoppingItem(@RequestBody Shopping shoppingItem) {
         Shopping createdShoppingItem = shoppingService.createShoppingItem(shoppingItem);
         return new ResponseEntity<>(createdShoppingItem, HttpStatus.CREATED);

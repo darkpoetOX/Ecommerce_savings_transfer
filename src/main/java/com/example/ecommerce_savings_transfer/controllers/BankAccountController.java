@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
 @RequestMapping("bank-accounts")
 public class BankAccountController {
@@ -17,21 +20,47 @@ public class BankAccountController {
         this.bankAccountService = bankAccountService;
     }
 
+    @GetMapping
+    public ResponseEntity<List<BankAccount>> getAllBankAccounts() {
+        List<BankAccount> bankAccounts = bankAccountService.getAllBankAccounts();
+        return new ResponseEntity<>(bankAccounts, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<BankAccount> getBankAccountById(@PathVariable Long id) {
+        Optional<BankAccount> optionalBankAccount = bankAccountService.getBankAccountById(id);
+
+        if (optionalBankAccount.isPresent()) {
+            return new ResponseEntity<>(optionalBankAccount.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping
     public ResponseEntity<BankAccount> createBankAccount(@RequestBody BankAccount bankAccount) {
         BankAccount createdBankAccount = bankAccountService.createBankAccount(bankAccount);
         return new ResponseEntity<>(createdBankAccount, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{accountId}")
-    public ResponseEntity<BankAccount> updateBankAccount(@PathVariable Long accountId, @RequestBody BankAccount updatedBankAccount) {
-        BankAccount updatedAccount = bankAccountService.updateBankAccount(accountId, updatedBankAccount);
-        return new ResponseEntity<>(updatedAccount, HttpStatus.OK);
+    @PutMapping("/{id}")
+    public ResponseEntity<BankAccount> updateBankAccount(@PathVariable Long id, @RequestBody BankAccount updatedBankAccount) {
+        try {
+            BankAccount updatedAccount = bankAccountService.updateBankAccount(id, updatedBankAccount);
+            return new ResponseEntity<>(updatedAccount, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
-    @DeleteMapping("/{accountId}")
-    public ResponseEntity<Void> deleteBankAccount(@PathVariable Long accountId) {
-        bankAccountService.deleteBankAccount(accountId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBankAccount(@PathVariable Long id) {
+        try {
+            bankAccountService.deleteBankAccount(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 }
+

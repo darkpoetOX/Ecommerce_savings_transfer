@@ -5,6 +5,7 @@ import com.example.ecommerce_savings_transfer.repositories.BankAccountRepository
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,7 +21,13 @@ public class BankAccountService {
         // Additional logic/validation can be added here before saving
         return bankAccountRepository.save(bankAccount);
     }
+    public List<BankAccount> getAllBankAccounts() {
+        return bankAccountRepository.findAll();
+    }
 
+    public Optional<BankAccount> getBankAccountById(Long accountId) {
+        return bankAccountRepository.findById(accountId);
+    }
     public BankAccount updateBankAccount(Long accountId, BankAccount updatedBankAccount) {
         // Additional logic/validation can be added here before updating
         Optional<BankAccount> existingAccount = bankAccountRepository.findById(accountId);
