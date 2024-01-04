@@ -20,6 +20,9 @@ public class BankAccount {
     private double currentAccountBalance;
     private double savingsAccountBalance;
 
+    @OneToOne(mappedBy = "bankAccount", cascade = CascadeType.ALL)
+    private User user;
+
     // Constructor
     public BankAccount(String accountType, String securityNumber, String pinNumber,
                        String accountNumber, double currentAccountBalance, double savingsAccountBalance) {
@@ -97,5 +100,12 @@ public class BankAccount {
 
     public void incrementSavingsAccount(double amount) {
         this.savingsAccountBalance += amount;
+    }
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

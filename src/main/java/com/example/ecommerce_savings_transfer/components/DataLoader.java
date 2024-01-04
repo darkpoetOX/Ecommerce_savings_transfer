@@ -44,6 +44,10 @@ public class DataLoader implements CommandLineRunner {
         bankAccount.setSavingsAccountBalance(500.0);
         user.setBankAccount(bankAccount);
 
+        bankAccount.setUser(user);  // Associate the bank account with the user
+        user.setBankAccount(bankAccount);
+
+
         // Create sample shopping items
         List<Shopping> shoppingList = Arrays.asList(
                 new Shopping("Item1", LocalDateTime.now(), 150.0, true, user),
