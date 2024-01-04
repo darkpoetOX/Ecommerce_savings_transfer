@@ -1,5 +1,6 @@
 package com.example.ecommerce_savings_transfer.services;
 
+import com.example.ecommerce_savings_transfer.models.BankAccount;
 import com.example.ecommerce_savings_transfer.models.Shopping;
 import com.example.ecommerce_savings_transfer.repositories.ShoppingRepository;
 import com.example.ecommerce_savings_transfer.repositories.UserRepository;

@@ -46,8 +46,8 @@ public class DataLoader implements CommandLineRunner {
 
         // Create sample shopping items
         List<Shopping> shoppingList = Arrays.asList(
-                new Shopping("Item1", LocalDateTime.now(), 150.0, true),
-                new Shopping("Item2", LocalDateTime.now(), 80.0, false)
+                new Shopping("Item1", LocalDateTime.now(), 150.0, true, user),
+                new Shopping("Item2", LocalDateTime.now(), 80.0, false, user)
         );
         user.setShoppingList(shoppingList);
 

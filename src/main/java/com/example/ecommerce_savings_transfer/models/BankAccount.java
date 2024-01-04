@@ -90,4 +90,12 @@ public class BankAccount {
     public void setSavingsAccountBalance(double savingsAccountBalance) {
         this.savingsAccountBalance = savingsAccountBalance;
     }
+
+    public void decrementCurrentAccount(double amount) {
+        this.currentAccountBalance -= amount;
+    }
+
+    public void incrementSavingsAccount(double amount) {
+        this.savingsAccountBalance += amount;
+    }
 }
