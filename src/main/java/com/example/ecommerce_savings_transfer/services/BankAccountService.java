@@ -2,6 +2,7 @@ package com.example.ecommerce_savings_transfer.services;
 
 import com.example.ecommerce_savings_transfer.models.BankAccount;
 import com.example.ecommerce_savings_transfer.repositories.BankAccountRepository;
+import com.example.ecommerce_savings_transfer.repositories.ShoppingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,12 +11,9 @@ import java.util.Optional;
 
 @Service
 public class BankAccountService {
-    private final BankAccountRepository bankAccountRepository;
 
     @Autowired
-    public BankAccountService(BankAccountRepository bankAccountRepository) {
-        this.bankAccountRepository = bankAccountRepository;
-    }
+    BankAccountRepository bankAccountRepository;
 
     public BankAccount createBankAccount(BankAccount bankAccount) {
         // Additional logic/validation can be added here before saving

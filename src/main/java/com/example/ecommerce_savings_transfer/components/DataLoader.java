@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
+
 
 
 @Component
@@ -42,16 +44,18 @@ public class DataLoader implements CommandLineRunner {
         bankAccount.setSavingsAccountBalance(500.0);
         user.setBankAccount(bankAccount);
 
-        // Create sample shopping item
-        Shopping shoppingItem = new Shopping();
-        shoppingItem.setItemName("Item1");
-        shoppingItem.setTransactionDateTime(LocalDateTime.now());
-        shoppingItem.setPrice(150.0);
-        shoppingItem.setIsNeed(true);
+        // Create sample shopping items
+        List<Shopping> shoppingList = Arrays.asList(
+                new Shopping("Item1", LocalDateTime.now(), 150.0, true),
+                new Shopping("Item2", LocalDateTime.now(), 80.0, false)
+        );
+        user.setShoppingList(shoppingList);
 
         // Save entities
         userService.createUser(user);
         bankAccountService.createBankAccount(bankAccount);
-        shoppingService.createShoppingItem(shoppingItem);
+
+        // Process shopping items
+        shoppingService.processShoppingItems(user.getShoppingList(), user.getBankAccount());
     }
 }

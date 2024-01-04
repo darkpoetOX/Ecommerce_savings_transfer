@@ -20,6 +20,16 @@ public class User {
     @JoinColumn(name = "bank_account_id", referencedColumnName = "id")
     private BankAccount bankAccount;
 
+    // Constructor
+    public User(String name, List<Shopping> shoppingList, BankAccount bankAccount) {
+        this.name = name;
+        this.shoppingList = shoppingList;
+        this.bankAccount = bankAccount;
+    }
+    // default constructor
+    public User() {
+    }
+
     // Getters and Setters
     public Long getId() {
         return id;

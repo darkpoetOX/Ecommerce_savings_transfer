@@ -21,6 +21,19 @@ public class Shopping {
     @JoinColumn(name = "user_id")
     private User user;
 
+    // Constructor
+    public Shopping(String itemName, LocalDateTime transactionDateTime,
+                    double price, boolean isNeed, User user) {
+        this.itemName = itemName;
+        this.transactionDateTime = transactionDateTime;
+        this.price = price;
+        this.isNeed = isNeed;
+        this.user = user;
+    }
+    // default constructor
+    public Shopping() {
+    }
+
     // Getters and Setters
     public Long getId() {
         return id;
