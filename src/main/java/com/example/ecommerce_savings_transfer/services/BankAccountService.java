@@ -1,6 +1,7 @@
 package com.example.ecommerce_savings_transfer.services;
 
 import com.example.ecommerce_savings_transfer.models.BankAccount;
+import com.example.ecommerce_savings_transfer.models.Shopping;
 import com.example.ecommerce_savings_transfer.repositories.BankAccountRepository;
 import com.example.ecommerce_savings_transfer.repositories.ShoppingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,6 @@ public class BankAccountService {
         return bankAccountRepository.findById(accountId);
     }
     public BankAccount updateBankAccount(Long accountId, BankAccount updatedBankAccount) {
-        // Additional logic/validation can be added here before updating
         Optional<BankAccount> existingAccount = bankAccountRepository.findById(accountId);
         if (existingAccount.isPresent()) {
             // May not need all of these updates
@@ -44,6 +44,48 @@ public class BankAccountService {
             // Handle case where the bank account with the given ID is not found
             throw new IllegalArgumentException("Bank account with ID " + accountId + " not found");
         }
+    }
+
+    public BankAccount processShoppingItems(List<Shopping> shoppingItems, Long accountId) {
+        Optional<BankAccount> optionalAccount = bankAccountRepository.findById(accountId);
+
+        if (optionalAccount.isPresent()) {
+            BankAccount accountToUpdate = optionalAccount.get();
+
+            for (Shopping item : shoppingItems) {
+                double roundedPrice = item.isNeed() ? roundToNearestDollar(item.getPrice()) : roundToNearestTenDollars(item.getPrice());
+
+                // Calculate the difference and update account balances
+                double difference = roundedPrice - item.getPrice();
+                accountToUpdate.decrementCurrentAccount(difference);
+                accountToUpdate.incrementSavingsAccount(difference);
+            }
+
+            // Save the updated account and return it
+            return bankAccountRepository.save(accountToUpdate);
+        } else {
+            // Handle case where the bank account with the given ID is not found
+            throw new IllegalArgumentException("Bank account with ID " + accountId + " not found");
+        }
+    }
+
+
+    private double roundToNearestDollar(double amount) {
+        if (isInteger(amount)) {
+            return amount + 1.0; // Default add 1 dollar to integer amounts
+        }
+        return Math.round(amount);
+    }
+
+    private double roundToNearestTenDollars(double amount) {
+        if (isInteger(amount)) {
+            return amount + 5.0; // Default add 5 dollars to integer amounts
+        }
+        return Math.round(amount / 10.0) * 10.0;
+    }
+
+    private boolean isInteger(double amount) {
+        return amount % 1 == 0;
     }
 
     public void deleteBankAccount(Long accountId) {

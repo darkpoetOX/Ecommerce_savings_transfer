@@ -16,6 +16,9 @@ public class ShoppingService {
     @Autowired
     ShoppingRepository shoppingRepository;
 
+    @Autowired
+    private BankAccountService bankAccountService;
+
 
     public List<Shopping> getAllShoppingItems() {
 
@@ -46,26 +49,7 @@ public class ShoppingService {
         }
     }
 
-    public void processShoppingItems(List<Shopping> shoppingItems, BankAccount bankAccount) {
-        for (Shopping item : shoppingItems) {
-            double roundedPrice = item.isNeed() ? roundToNearestDollar(item.getPrice()) : roundToNearestTenDollars(item.getPrice());
 
-            // Calculate the difference and update account balances
-            double difference = roundedPrice - item.getPrice();
-            bankAccount.decrementCurrentAccount(difference);
-            bankAccount.incrementSavingsAccount(difference);
-
-            // Other actions as needed...
-        }
-    }
-
-    private double roundToNearestDollar(double amount) {
-        return Math.round(amount);
-    }
-
-    private double roundToNearestTenDollars(double amount) {
-        return Math.round(amount / 10.0) * 10.0;
-    }
 
     public void deleteShoppingItem(Long itemId) {
         shoppingRepository.deleteById(itemId);

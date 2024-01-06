@@ -50,8 +50,8 @@ public class DataLoader implements CommandLineRunner {
 
         // Create sample shopping items
         List<Shopping> shoppingList = Arrays.asList(
-                new Shopping("Item1", LocalDateTime.now(), 150.0, true, user),
-                new Shopping("Item2", LocalDateTime.now(), 80.0, false, user)
+                new Shopping("milk", LocalDateTime.now(),2.6, true, user),
+                new Shopping("fur coat", LocalDateTime.now(), 186.0, false, user)
         );
         user.setShoppingList(shoppingList);
 
@@ -60,6 +60,6 @@ public class DataLoader implements CommandLineRunner {
         bankAccountService.createBankAccount(bankAccount);
 
         // Process shopping items
-        shoppingService.processShoppingItems(user.getShoppingList(), user.getBankAccount());
+        bankAccountService.processShoppingItems(user.getShoppingList(), user.getBankAccount().getId());
     }
 }
