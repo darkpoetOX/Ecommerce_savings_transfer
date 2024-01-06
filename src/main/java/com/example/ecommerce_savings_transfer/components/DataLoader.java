@@ -1,11 +1,15 @@
 package com.example.ecommerce_savings_transfer.components;
+
 import com.example.ecommerce_savings_transfer.models.BankAccount;
 import com.example.ecommerce_savings_transfer.models.Shopping;
 import com.example.ecommerce_savings_transfer.models.User;
+import com.example.ecommerce_savings_transfer.repositories.BankAccountRepository;
+import com.example.ecommerce_savings_transfer.repositories.ShoppingRepository;
+import com.example.ecommerce_savings_transfer.repositories.UserRepository;
 import com.example.ecommerce_savings_transfer.services.BankAccountService;
-import com.example.ecommerce_savings_transfer.services.ShoppingService;
-import com.example.ecommerce_savings_transfer.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -13,23 +17,24 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 
-
-
 @Component
-public class DataLoader implements CommandLineRunner {
-    private final UserService userService;
-    private final BankAccountService bankAccountService;
-    private final ShoppingService shoppingService;
+public class DataLoader implements ApplicationRunner {
 
     @Autowired
-    public DataLoader(UserService userService, BankAccountService bankAccountService, ShoppingService shoppingService) {
-        this.userService = userService;
-        this.bankAccountService = bankAccountService;
-        this.shoppingService = shoppingService;
-    }
+    UserRepository userRepository;
+
+    @Autowired
+    BankAccountRepository bankAccountRepository;
+
+    @Autowired
+    BankAccountService bankAccountService;
+
+
+    // DEFAULT CONSTRUCTOR
+    public DataLoader() {}
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(ApplicationArguments args) throws Exception{
         // Create sample user
         User user = new User();
         user.setName("John Doe");
@@ -47,17 +52,16 @@ public class DataLoader implements CommandLineRunner {
         bankAccount.setUser(user);  // Associate the bank account with the user
         user.setBankAccount(bankAccount);
 
-
         // Create sample shopping items
         List<Shopping> shoppingList = Arrays.asList(
-                new Shopping("milk", LocalDateTime.now(),2.6, true, user),
+                new Shopping("milk", LocalDateTime.now(), 2.6, true, user),
                 new Shopping("fur coat", LocalDateTime.now(), 186.0, false, user)
         );
         user.setShoppingList(shoppingList);
 
         // Save entities
-        userService.createUser(user);
-        bankAccountService.createBankAccount(bankAccount);
+        userRepository.save(user);
+        bankAccountRepository.save(bankAccount);
 
         // Process shopping items
         bankAccountService.processShoppingItems(user.getShoppingList(), user.getBankAccount().getId());
