@@ -69,24 +69,16 @@ public class BankAccountService {
         }
     }
 
-
     private double roundToNearestDollar(double amount) {
-        if (isInteger(amount)) {
-            return amount + 1.0; // Default add 1 dollar to integer amounts
-        }
-        return Math.round(amount);
+        double roundedPrice = Math.round(amount);
+        return (roundedPrice - amount) == 0 ? 1.0 + amount : roundedPrice;
     }
 
     private double roundToNearestTenDollars(double amount) {
-        if (isInteger(amount)) {
-            return amount + 5.0; // Default add 5 dollars to integer amounts
-        }
-        return Math.round(amount / 10.0) * 10.0;
+        double roundedPrice = Math.round(amount / 10.0) * 10.0;
+        return (roundedPrice - amount) == 0 ? 5.0 + amount : roundedPrice;
     }
 
-    private boolean isInteger(double amount) {
-        return amount % 1 == 0;
-    }
 
     public void deleteBankAccount(Long accountId) {
         // Additional logic/validation can be added here before deleting
