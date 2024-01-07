@@ -13,12 +13,9 @@ import java.util.Optional;
 @RestController
 @RequestMapping("bank-accounts")
 public class BankAccountController {
-    private final BankAccountService bankAccountService;
 
     @Autowired
-    public BankAccountController(BankAccountService bankAccountService) {
-        this.bankAccountService = bankAccountService;
-    }
+    BankAccountService bankAccountService;
 
     @GetMapping //GET /bank-accounts
     public ResponseEntity<List<BankAccount>> getAllBankAccounts() {

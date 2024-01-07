@@ -14,14 +14,8 @@ import java.util.Optional;
 @RequestMapping("shoppings")
 public class ShoppingController {
 
-    private final ShoppingService shoppingService;
-
     @Autowired
-    public ShoppingController(ShoppingService shoppingService)
-    {
-
-        this.shoppingService = shoppingService;
-    }
+    ShoppingService shoppingService;
 
     @GetMapping
     public ResponseEntity<List<Shopping>> getAllShoppingItems() {
